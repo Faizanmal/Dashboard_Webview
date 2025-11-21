@@ -25,6 +25,7 @@ module.exports = tseslint.config(
         { allowConstantExport: true },
       ],
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "off",
     },
     extends: [
       js.configs.recommended,

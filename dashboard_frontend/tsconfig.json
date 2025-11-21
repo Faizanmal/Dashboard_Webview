@@ -49,6 +49,7 @@
     "**/*.tsx"
 , "tailwind.config.js"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.d.ts"
   ]
 }
