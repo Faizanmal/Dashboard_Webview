@@ -8,6 +8,14 @@ import {
   useMockDataStatus 
 } from '../hooks/useDashboardData';
 
+// Metric titles mapping to avoid recreation on each render
+const METRIC_TITLES: Record<string, string> = {
+  totalRevenue: 'Total Revenue',
+  totalUsers: 'Total Users',
+  conversions: 'Conversions',
+  growthRate: 'Growth Rate'
+};
+
 export const DashboardExample: React.FC = () => {
   // Use the hooks to fetch data
   const { data: revenueData, isLoading: revenueLoading, error: revenueError } = useRevenueData();
@@ -66,24 +74,15 @@ export const DashboardExample: React.FC = () => {
 
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {metricsData && Object.entries(metricsData).map(([key, metric]) => {
-          const titles: Record<string, string> = {
-            totalRevenue: 'Total Revenue',
-            totalUsers: 'Total Users',
-            conversions: 'Conversions',
-            growthRate: 'Growth Rate'
-          };
-          
-          return (
-            <div key={key} className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-sm font-medium text-gray-500">{titles[key]}</h3>
-              <p className="text-2xl font-bold text-gray-900">{metric.value}</p>
-              <p className={`text-sm ${metric.changeType === 'increase' ? 'text-green-600' : 'text-red-600'}`}>
-                {metric.changeType === 'increase' ? '↗' : '↘'} {metric.change}%
-              </p>
-            </div>
-          );
-        })}
+        {metricsData && Object.entries(metricsData).map(([key, metric]) => (
+          <div key={key} className="bg-white p-6 rounded-lg shadow">
+            <h3 className="text-sm font-medium text-gray-500">{METRIC_TITLES[key]}</h3>
+            <p className="text-2xl font-bold text-gray-900">{metric.value}</p>
+            <p className={`text-sm ${metric.changeType === 'increase' ? 'text-green-600' : 'text-red-600'}`}>
+              {metric.changeType === 'increase' ? '↗' : '↘'} {metric.change}%
+            </p>
+          </div>
+        ))}
       </div>
 
       {/* Revenue Chart */}
