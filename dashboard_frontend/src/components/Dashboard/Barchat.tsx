@@ -1,6 +1,8 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { DEFAULT_CHART_COLORS, CHART_MARGINS, CHART_STYLES, type BarChartData } from '@/constants/dashboards';
 import { ChartTooltip } from './shared/ChartToolTip';
+import { XAxis, YAxis } from './shared/ChartAxisConfig';
+import { ChartHeader } from './shared/ChartHeader';
 
 interface DashboardBarChartProps {
   data: BarChartData[];
@@ -15,10 +17,7 @@ const DashboardBarChart = ({
 }: DashboardBarChartProps) => {
   return (
     <div className={CHART_STYLES.container}>
-      <div className="mb-6">
-        <h3 className={CHART_STYLES.title}>{title}</h3>
-        <div className={CHART_STYLES.dividerAccent} />
-      </div>
+      <ChartHeader title={title} dividerStyle="accent" />
       
       <div className={CHART_STYLES.chartHeight}>
         <ResponsiveContainer width="100%" height="100%">
@@ -40,20 +39,8 @@ const DashboardBarChart = ({
               opacity={0.3}
             />
             
-            <XAxis 
-              dataKey="name" 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: CHART_STYLES.axis, fontSize: 12 }}
-              dy={10}
-            />
-            
-            <YAxis 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: CHART_STYLES.axis, fontSize: 12 }}
-              dx={-10}
-            />
+            <XAxis dataKey="name" />
+            <YAxis />
             
             <Tooltip content={<ChartTooltip />} />
             

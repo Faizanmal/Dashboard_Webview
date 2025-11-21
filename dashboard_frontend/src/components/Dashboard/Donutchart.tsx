@@ -1,6 +1,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { CHART_STYLES, type DonutChartData } from '@/constants/dashboards';
 import { DonutTooltip } from './shared/ChartToolTip';
+import { ChartHeader } from './shared/ChartHeader';
 
 interface DashboardDonutChartProps {
   data: DonutChartData[];
@@ -13,10 +14,7 @@ const DashboardDonutChart = ({ data, title }: DashboardDonutChartProps) => {
 
   return (
     <div className={CHART_STYLES.container}>
-      <div className="mb-6">
-        <h3 className={CHART_STYLES.title}>{title}</h3>
-        <div className={CHART_STYLES.dividerPrimary} />
-      </div>
+      <ChartHeader title={title} dividerStyle="primary" />
       
       <div className="flex items-center justify-between">
         <div className="relative h-64 w-64">

@@ -3,6 +3,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { enhancedApiService } from '../lib/enhancedApiService';
 
+// Common query configuration to reduce duplication
+const DEFAULT_QUERY_OPTIONS = {
+  retry: 3,
+  retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
+};
+
 // Individual data hooks
 export const useRevenueData = () => {
   return useQuery({
@@ -10,8 +16,7 @@ export const useRevenueData = () => {
     queryFn: () => enhancedApiService.getRevenueData(),
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchInterval: 5 * 60 * 1000, // Refetch every 5 minutes
-    retry: 3, // Retry failed requests up to 3 times
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
+    ...DEFAULT_QUERY_OPTIONS,
   });
 };
 
@@ -21,8 +26,7 @@ export const useChannelPerformance = () => {
     queryFn: () => enhancedApiService.getChannelPerformance(),
     staleTime: 5 * 60 * 1000,
     refetchInterval: 5 * 60 * 1000,
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    ...DEFAULT_QUERY_OPTIONS,
   });
 };
 
@@ -32,8 +36,7 @@ export const useAudienceSegments = () => {
     queryFn: () => enhancedApiService.getAudienceSegments(),
     staleTime: 10 * 60 * 1000, // 10 minutes for audience data
     refetchInterval: 10 * 60 * 1000,
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    ...DEFAULT_QUERY_OPTIONS,
   });
 };
 
@@ -43,8 +46,7 @@ export const useCampaigns = () => {
     queryFn: () => enhancedApiService.getCampaigns(),
     staleTime: 2 * 60 * 1000, // 2 minutes for campaign data
     refetchInterval: 2 * 60 * 1000,
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    ...DEFAULT_QUERY_OPTIONS,
   });
 };
 
@@ -54,8 +56,7 @@ export const useMetrics = () => {
     queryFn: () => enhancedApiService.getMetrics(),
     staleTime: 1 * 60 * 1000, // 1 minute for metrics
     refetchInterval: 1 * 60 * 1000,
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    ...DEFAULT_QUERY_OPTIONS,
   });
 };
 
@@ -66,8 +67,7 @@ export const useDashboardData = () => {
     queryFn: () => enhancedApiService.getDashboardData(),
     staleTime: 2 * 60 * 1000,
     refetchInterval: 2 * 60 * 1000,
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    ...DEFAULT_QUERY_OPTIONS,
   });
 };
 

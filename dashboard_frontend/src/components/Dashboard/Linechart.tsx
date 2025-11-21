@@ -1,6 +1,8 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { CHART_COLORS, CHART_MARGINS, CHART_STYLES, type LineChartData } from '@/constants/dashboards';
 import { ChartTooltip } from './shared/ChartToolTip';
+import { XAxis, YAxis } from './shared/ChartAxisConfig';
+import { ChartHeader } from './shared/ChartHeader';
 
 interface DashboardLineChartProps {
   data: LineChartData[];
@@ -11,10 +13,7 @@ interface DashboardLineChartProps {
 const DashboardLineChart = ({ data, title, color = CHART_COLORS.primary }: DashboardLineChartProps) => {
   return (
     <div className={CHART_STYLES.container}>
-      <div className="mb-6">
-        <h3 className={CHART_STYLES.title}>{title}</h3>
-        <div className={CHART_STYLES.dividerPrimary} />
-      </div>
+      <ChartHeader title={title} dividerStyle="primary" />
       
       <div className={CHART_STYLES.chartHeight}>
         <ResponsiveContainer width="100%" height="100%">
@@ -32,20 +31,8 @@ const DashboardLineChart = ({ data, title, color = CHART_COLORS.primary }: Dashb
               opacity={0.3}
             />
             
-            <XAxis 
-              dataKey="name" 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: CHART_STYLES.axis, fontSize: 12 }}
-              dy={10}
-            />
-            
-            <YAxis 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: CHART_STYLES.axis, fontSize: 12 }}
-              dx={-10}
-            />
+            <XAxis dataKey="name" />
+            <YAxis />
             
             <Tooltip content={<ChartTooltip />} />
             

@@ -66,38 +66,24 @@ export const DashboardExample: React.FC = () => {
 
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {metricsData && (
-          <>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-sm font-medium text-gray-500">Total Revenue</h3>
-              <p className="text-2xl font-bold text-gray-900">{metricsData.totalRevenue.value}</p>
-              <p className={`text-sm ${metricsData.totalRevenue.changeType === 'increase' ? 'text-green-600' : 'text-red-600'}`}>
-                {metricsData.totalRevenue.changeType === 'increase' ? '↗' : '↘'} {metricsData.totalRevenue.change}%
+        {metricsData && Object.entries(metricsData).map(([key, metric]) => {
+          const titles: Record<string, string> = {
+            totalRevenue: 'Total Revenue',
+            totalUsers: 'Total Users',
+            conversions: 'Conversions',
+            growthRate: 'Growth Rate'
+          };
+          
+          return (
+            <div key={key} className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-sm font-medium text-gray-500">{titles[key]}</h3>
+              <p className="text-2xl font-bold text-gray-900">{metric.value}</p>
+              <p className={`text-sm ${metric.changeType === 'increase' ? 'text-green-600' : 'text-red-600'}`}>
+                {metric.changeType === 'increase' ? '↗' : '↘'} {metric.change}%
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-sm font-medium text-gray-500">Total Users</h3>
-              <p className="text-2xl font-bold text-gray-900">{metricsData.totalUsers.value}</p>
-              <p className={`text-sm ${metricsData.totalUsers.changeType === 'increase' ? 'text-green-600' : 'text-red-600'}`}>
-                {metricsData.totalUsers.changeType === 'increase' ? '↗' : '↘'} {metricsData.totalUsers.change}%
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-sm font-medium text-gray-500">Conversions</h3>
-              <p className="text-2xl font-bold text-gray-900">{metricsData.conversions.value}</p>
-              <p className={`text-sm ${metricsData.conversions.changeType === 'increase' ? 'text-green-600' : 'text-red-600'}`}>
-                {metricsData.conversions.changeType === 'increase' ? '↗' : '↘'} {metricsData.conversions.change}%
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-sm font-medium text-gray-500">Growth Rate</h3>
-              <p className="text-2xl font-bold text-gray-900">{metricsData.growthRate.value}</p>
-              <p className={`text-sm ${metricsData.growthRate.changeType === 'increase' ? 'text-green-600' : 'text-red-600'}`}>
-                {metricsData.growthRate.changeType === 'increase' ? '↗' : '↘'} {metricsData.growthRate.change}%
-              </p>
-            </div>
-          </>
-        )}
+          );
+        })}
       </div>
 
       {/* Revenue Chart */}
