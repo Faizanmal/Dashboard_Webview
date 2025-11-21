@@ -1,0 +1,8 @@
+nohup: ignoring input
+Performing system checks...
+
+System check identified no issues (0 silenced).
+November 21, 2025 - 12:49:16
+Django version 5.2.8, using settings 'dashboard_backend.settings'
+Starting ASGI/Daphne version 4.2.1 development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.

@@ -1,0 +1,1 @@
+# Make management module discoverable
