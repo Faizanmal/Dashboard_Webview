@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
+import type { UserRole } from '@/lib/dashboardApi';
 import { dashboardApi } from '@/lib/dashboardApi';
 import { useAuthStore } from '@/stores/authStore';
 import { toast } from 'sonner';
@@ -15,7 +16,7 @@ export function useAuth() {
   const loginMutation = useMutation({
     mutationFn: async ({ username, password }: { username: string; password: string }) => {
       const tokens = await dashboardApi.login(username, password);
-      
+
       // Get user info (you might need to add an endpoint for this or decode JWT)
       // For now, we'll use placeholder data
       const mockUser = {
@@ -30,7 +31,7 @@ export function useAuth() {
         id: 1,
         role: username === 'admin' ? 'admin' : username === 'editor' ? 'editor' : 'viewer',
         permissions: {},
-      } as any;
+      } as UserRole;
 
       return { tokens, user: mockUser, role: mockRole };
     },
@@ -39,7 +40,7 @@ export function useAuth() {
       toast.success('Login successful!');
       router.push('/dashboard');
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { detail?: string } } }) => {
       toast.error(error.response?.data?.detail || 'Login failed');
     },
   });

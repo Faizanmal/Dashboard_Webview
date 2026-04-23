@@ -1,10 +1,11 @@
 import * as React from "react"
-import {
+import type {
   Path,
-  useFormContext,
   ControllerProps,
   FieldPath,
-  FieldValues,
+  FieldValues} from "react-hook-form";
+import {
+  useFormContext
 } from "react-hook-form"
 
 export type FormFieldProps<

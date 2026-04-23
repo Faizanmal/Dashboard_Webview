@@ -7,7 +7,7 @@
     "build": "next build --no-lint",
     "build:dev": "next build --mode development",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "npx eslint .",
     "preview": "next preview"
   },
   "dependencies": {

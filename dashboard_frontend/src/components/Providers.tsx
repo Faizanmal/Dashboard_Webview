@@ -27,7 +27,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Initialize dashboardApi with tokens from store
     if (accessToken && refreshToken) {
-      dashboardApi.setTokens(accessToken, refreshToken);
+      dashboardApi.setTokens({ access: accessToken, refresh: refreshToken });
     }
   }, [accessToken, refreshToken]);
 

@@ -17,12 +17,12 @@ interface RealtimeWidgetProps {
 }
 
 export function RealtimeWidget({
-  widgetId,
+  // widgetId,
   widgetType,
   title,
   metricName,
   dashboardId,
-  refreshInterval = 5000,
+  // refreshInterval = 5000,
 }: RealtimeWidgetProps) {
   const { isConnected, lastMessage, subscribeToMetrics } = useDashboardWebSocket(dashboardId);
   const [currentValue, setCurrentValue] = useState<number | null>(null);
@@ -40,12 +40,12 @@ export function RealtimeWidget({
   useEffect(() => {
     if (lastMessage?.type === 'metric_update' && lastMessage.metric_name === metricName) {
       setPreviousValue(currentValue);
-      setCurrentValue(lastMessage.value);
-      
+      setCurrentValue(lastMessage.value as number);
+
       setHistory((prev) => {
         const newHistory = [
           ...prev,
-          { timestamp: new Date().toISOString(), value: lastMessage.value },
+          { timestamp: new Date().toISOString(), value: lastMessage.value as number },
         ].slice(-20); // Keep last 20 data points
         return newHistory;
       });
@@ -61,7 +61,7 @@ export function RealtimeWidget({
   }, [metricsData, metricName]);
 
   const getChangePercentage = () => {
-    if (currentValue === null || previousValue === null || previousValue === 0) return null;
+    if (currentValue === null || previousValue === null || previousValue === 0) {return null;}
     return ((currentValue - previousValue) / previousValue) * 100;
   };
 
@@ -78,9 +78,8 @@ export function RealtimeWidget({
             </span>
             {changePercentage !== null && (
               <span
-                className={`flex items-center text-sm ${
-                  changePercentage > 0 ? 'text-green-600' : 'text-red-600'
-                }`}
+                className={`flex items-center text-sm ${changePercentage > 0 ? 'text-green-600' : 'text-red-600'
+                  }`}
               >
                 {changePercentage > 0 ? (
                   <ArrowUpIcon className="h-4 w-4" />
@@ -120,9 +119,9 @@ export function RealtimeWidget({
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis 
-                dataKey="time" 
-                className="text-xs" 
+              <XAxis
+                dataKey="time"
+                className="text-xs"
                 tick={{ fontSize: 10 }}
               />
               <YAxis className="text-xs" tick={{ fontSize: 10 }} />

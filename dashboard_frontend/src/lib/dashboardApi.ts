@@ -1,5 +1,6 @@
 // Enhanced API service with authentication and new endpoints
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosInstance } from 'axios';
+import axios from 'axios';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
 
@@ -25,9 +26,9 @@ export interface Dashboard {
   id: number;
   name: string;
   description: string;
-  owner: any;
+  owner: unknown;
   is_default: boolean;
-  layout_config: any;
+  layout_config: Record<string, unknown>;
   widgets: Widget[];
   widget_count: number;
   created_at: string;
@@ -44,7 +45,7 @@ export interface Widget {
   position_y: number;
   width: number;
   height: number;
-  config: any;
+  config: Record<string, unknown>;
   refresh_interval: number;
   created_at: string;
   updated_at: string;
@@ -294,7 +295,7 @@ class DashboardApiService {
     return response.data;
   }
 
-  async postMetric(data: { metric_name: string; value: number; unit?: string; tags?: Record<string, any> }) {
+  async postMetric(data: { metric_name: string; value: number; unit?: string; tags?: Record<string, unknown> }) {
     const response = await this.api.post('/metrics/post/', data);
     return response.data;
   }

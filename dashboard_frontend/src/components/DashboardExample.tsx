@@ -1,18 +1,18 @@
 import React from 'react';
-import { 
-  useRevenueData, 
-  useChannelPerformance, 
-  useAudienceSegments, 
-  useCampaigns, 
+import {
+  useRevenueData,
+  useChannelPerformance,
+  useAudienceSegments,
+  useCampaigns,
   useMetrics,
-  useMockDataStatus 
+  useMockDataStatus
 } from '../hooks/useDashboardData';
 
 export const DashboardExample: React.FC = () => {
   // Use the hooks to fetch data
   const { data: revenueData, isLoading: revenueLoading, error: revenueError } = useRevenueData();
   const { data: channelData, isLoading: channelLoading, error: channelError } = useChannelPerformance();
-  const { data: audienceData, isLoading: audienceLoading, error: audienceError } = useAudienceSegments();
+  const { isLoading: audienceLoading, error: audienceError } = useAudienceSegments();
   const { data: campaignData, isLoading: campaignLoading, error: campaignError } = useCampaigns();
   const { data: metricsData, isLoading: metricsLoading, error: metricsError } = useMetrics();
   const { data: isUsingMock } = useMockDataStatus();
@@ -41,8 +41,8 @@ export const DashboardExample: React.FC = () => {
           <div className="text-red-600 text-6xl mb-4">⚠️</div>
           <h2 className="text-xl font-semibold text-gray-800 mb-2">Error Loading Data</h2>
           <p className="text-gray-600 mb-4">Some data failed to load. Please try again later.</p>
-          <button 
-            onClick={() => window.location.reload()} 
+          <button
+            onClick={() => window.location.reload()}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             Retry
@@ -157,11 +157,10 @@ export const DashboardExample: React.FC = () => {
                   <td className="text-right py-2">{campaign.clicks.toLocaleString()}</td>
                   <td className="text-right py-2">{campaign.conversions.toLocaleString()}</td>
                   <td className="text-center py-2">
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      campaign.status === 'active' ? 'bg-green-100 text-green-800' :
-                      campaign.status === 'paused' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
+                    <span className={`px-2 py-1 rounded-full text-xs ${campaign.status === 'active' ? 'bg-green-100 text-green-800' :
+                        campaign.status === 'paused' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-gray-100 text-gray-800'
+                      }`}>
                       {campaign.status}
                     </span>
                   </td>

@@ -8,7 +8,8 @@ interface DataTableProps<T> {
   columns: {
     header: string;
     accessorKey: keyof T;
-    cell?: (value, row: T) => React.ReactNode;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    cell?: (value: any, row: T) => React.ReactNode;
   }[];
   title?: string;
   description?: string;
@@ -27,16 +28,17 @@ export function DataTable<T>({
 
   const handleExport = () => {
     setIsExporting(true);
-    
+
     // Format data for CSV export
     const exportData = data.map(row => {
-      const formattedRow = {};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const formattedRow: Record<string, any> = {};
       columns.forEach(column => {
         formattedRow[column.header] = row[column.accessorKey];
       });
       return formattedRow;
     });
-    
+
     exportToCsv(exportData, filename);
     setIsExporting(false);
   };
@@ -48,9 +50,9 @@ export function DataTable<T>({
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>
           {description && <p className="text-sm text-muted-foreground">{description}</p>}
         </div>
-        <Button 
-          variant="outline" 
-          size="sm" 
+        <Button
+          variant="outline"
+          size="sm"
           onClick={handleExport}
           disabled={isExporting}
           className="flex items-center gap-1"
@@ -59,14 +61,14 @@ export function DataTable<T>({
           {isExporting ? 'Exporting...' : 'Export'}
         </Button>
       </div>
-      
+
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-secondary/50">
             <tr>
               {columns.map((column, index) => (
-                <th 
-                  key={index} 
+                <th
+                  key={index}
                   className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
                 >
                   {column.header}
@@ -79,18 +81,18 @@ export function DataTable<T>({
               <tr key={rowIndex} className="hover:bg-secondary/20 transition-colors">
                 {columns.map((column, colIndex) => (
                   <td key={colIndex} className="px-4 py-3 text-sm">
-                    {column.cell 
+                    {column.cell
                       ? column.cell(row[column.accessorKey], row)
                       : row[column.accessorKey] as React.ReactNode}
                   </td>
                 ))}
               </tr>
             ))}
-            
+
             {data.length === 0 && (
               <tr>
-                <td 
-                  colSpan={columns.length} 
+                <td
+                  colSpan={columns.length}
                   className="px-4 py-6 text-center text-sm text-muted-foreground"
                 >
                   No data available

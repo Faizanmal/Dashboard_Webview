@@ -61,7 +61,7 @@ const DataTable = ({ data, title }: DataTableProps) => {
 
   const handleExport = () => {
     setIsExporting(true);
-    
+
     try {
       // Format data for CSV export
       const exportData = sortedData.map(item => ({
@@ -73,9 +73,10 @@ const DataTable = ({ data, title }: DataTableProps) => {
         Conversions: item.conversions.toLocaleString(),
         Status: item.status.charAt(0).toUpperCase() + item.status.slice(1)
       }));
-      
+
       exportToCsv(exportData, `${title.toLowerCase().replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.csv`);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error exporting data:', error);
       alert('Failed to export data. Please try again.');
     } finally {
@@ -88,7 +89,7 @@ const DataTable = ({ data, title }: DataTableProps) => {
       const newStatuses = prev.status.includes(status)
         ? prev.status.filter(s => s !== status)
         : [...prev.status, status];
-      
+
       return { ...prev, status: newStatuses };
     });
     setCurrentPage(1); // Reset to first page when filter changes
@@ -105,19 +106,19 @@ const DataTable = ({ data, title }: DataTableProps) => {
 
   const filteredData = data.filter(item => {
     // Text search filter
-    const matchesSearch = 
+    const matchesSearch =
       item.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.campaign.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     // Status filter
     const matchesStatus = filters.status.length === 0 || filters.status.includes(item.status);
-    
+
     // Revenue filter
     const matchesRevenue = filters.minRevenue === null || item.revenue >= filters.minRevenue;
-    
+
     // Conversions filter
     const matchesConversions = filters.minConversions === null || item.conversions >= filters.minConversions;
-    
+
     return matchesSearch && matchesStatus && matchesRevenue && matchesConversions;
   });
 
@@ -152,13 +153,13 @@ const DataTable = ({ data, title }: DataTableProps) => {
     if (sortField !== field) {
       return <div className="w-4 h-4" />;
     }
-    return sortDirection === 'asc' ? 
-      <ChevronUp className="w-4 h-4" /> : 
+    return sortDirection === 'asc' ?
+      <ChevronUp className="w-4 h-4" /> :
       <ChevronDown className="w-4 h-4" />;
   };
 
-  const hasActiveFilters = filters.status.length > 0 || 
-    filters.minRevenue !== null || 
+  const hasActiveFilters = filters.status.length > 0 ||
+    filters.minRevenue !== null ||
     filters.minConversions !== null;
 
   return (
@@ -186,9 +187,9 @@ const DataTable = ({ data, title }: DataTableProps) => {
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium">Filter Campaigns</h4>
                     {hasActiveFilters && (
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={clearFilters}
                         className="h-8 px-2 text-xs"
                       >
@@ -197,14 +198,14 @@ const DataTable = ({ data, title }: DataTableProps) => {
                       </Button>
                     )}
                   </div>
-                  
+
                   <div className="space-y-2">
                     <h5 className="text-sm font-medium">Status</h5>
                     <div className="grid grid-cols-1 gap-2">
                       {['active', 'paused', 'completed'].map(status => (
                         <div key={status} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={`status-${status}`} 
+                          <Checkbox
+                            id={`status-${status}`}
                             checked={filters.status.includes(status)}
                             onCheckedChange={() => toggleStatusFilter(status)}
                           />
@@ -215,7 +216,7 @@ const DataTable = ({ data, title }: DataTableProps) => {
                       ))}
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <h5 className="text-sm font-medium">Minimum Revenue</h5>
                     <Select
@@ -240,7 +241,7 @@ const DataTable = ({ data, title }: DataTableProps) => {
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <h5 className="text-sm font-medium">Minimum Conversions</h5>
                     <Select
@@ -268,9 +269,9 @@ const DataTable = ({ data, title }: DataTableProps) => {
                 </div>
               </PopoverContent>
             </Popover>
-            
-            <Button 
-              variant="outline" 
+
+            <Button
+              variant="outline"
               size="sm"
               onClick={handleExport}
               disabled={isExporting || sortedData.length === 0}
@@ -280,7 +281,7 @@ const DataTable = ({ data, title }: DataTableProps) => {
             </Button>
           </div>
         </div>
-        
+
         <div className="flex items-center space-x-4">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -311,7 +312,7 @@ const DataTable = ({ data, title }: DataTableProps) => {
                 { key: 'conversions' as SortField, label: 'Conversions' },
                 { key: 'status' as SortField, label: 'Status' }
               ].map(({ key, label }) => (
-                <th 
+                <th
                   key={key}
                   className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground transition-colors"
                   onClick={() => handleSort(key)}
@@ -325,8 +326,8 @@ const DataTable = ({ data, title }: DataTableProps) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {paginatedData.map((item, index) => (
-              <tr 
+            {paginatedData.map((item) => (
+              <tr
                 key={item.id}
                 className="hover:bg-muted/20 transition-colors duration-200 group"
               >
@@ -340,7 +341,7 @@ const DataTable = ({ data, title }: DataTableProps) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-semibold text-foreground">
-                       {item.revenue !== undefined ? `$${item.revenue.toLocaleString()}` : ''}
+                    {item.revenue !== undefined ? `$${item.revenue.toLocaleString()}` : ''}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">

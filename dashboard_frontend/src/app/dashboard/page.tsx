@@ -1,16 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ProtectedRoute from '@/components/ProtectedRoute';
-import { useDashboards, useDefaultDashboard, useWidgets } from '@/hooks/useDashboard';
+import { useWidgets } from '@/hooks/useDashboard';
 import { useDashboardStore } from '@/stores/dashboardStore';
-import { useAuthStore } from '@/stores/authStore';
+
 import { Button } from '@/components/ui/button';
-import { 
-  LayoutDashboard, 
-  Plus, 
-  Settings, 
-  LogOut, 
+import {
+  LayoutDashboard,
+  Plus,
+
+  LogOut,
   Database,
   Bell,
   FileDown,
@@ -22,7 +22,7 @@ import { DataSourceManager } from '@/components/Dashboard/DataSourceManager';
 import { AlertManager } from '@/components/Dashboard/AlertManager';
 import { ExportManager } from '@/components/Dashboard/ExportManager';
 import { useAuth } from '@/hooks/useAuth';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -36,17 +36,16 @@ export default function DashboardPage() {
 
 function DashboardContent() {
   const { logout, user, userRole } = useAuth();
-  const { data: dashboards, isLoading: loadingDashboards } = useDashboards();
-  const { data: defaultDashboard, isLoading: loadingDefault } = useDefaultDashboard();
+
   const currentDashboard = useDashboardStore((state) => state.currentDashboard);
   const { data: widgets, isLoading: loadingWidgets } = useWidgets(currentDashboard?.id);
-  
+
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isEditor = userRole?.role === 'editor' || userRole?.role === 'admin';
-  const isAdmin = userRole?.role === 'admin';
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,7 +60,7 @@ function DashboardContent() {
           >
             <Menu className="h-5 w-5" />
           </Button>
-          
+
           <div className="flex items-center gap-2">
             <LayoutDashboard className="h-6 w-6" />
             <h1 className="text-xl font-bold">Dashboard</h1>
@@ -97,7 +96,7 @@ function DashboardContent() {
               <LayoutDashboard className="h-4 w-4 mr-2" />
               Dashboard
             </Button>
-            
+
             {isEditor && (
               <Button
                 variant={activeTab === 'data-sources' ? 'default' : 'ghost'}
@@ -111,7 +110,7 @@ function DashboardContent() {
                 Data Sources
               </Button>
             )}
-            
+
             {isEditor && (
               <Button
                 variant={activeTab === 'alerts' ? 'default' : 'ghost'}
@@ -125,7 +124,7 @@ function DashboardContent() {
                 Alerts
               </Button>
             )}
-            
+
             <Button
               variant={activeTab === 'exports' ? 'default' : 'ghost'}
               className="w-full justify-start"

@@ -1,7 +1,8 @@
 import * as React from "react"
-import * as LabelPrimitive from "@radix-ui/react-label"
+import type * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
-import { Controller, FieldValue, Path, FieldValues } from "react-hook-form"
+import type { Path, FieldValues } from "react-hook-form";
+import { Controller } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
@@ -18,9 +19,9 @@ const Form = ({ children, ...props }: React.ComponentProps<"form">) => (
 )
 
 const FormField = <
-   TFieldValues extends FieldValues,
-   TName extends Path<TFieldValues>
-   >({
+  TFieldValues extends FieldValues,
+  TName extends Path<TFieldValues>
+>({
   ...props
 }: FormFieldProps<TFieldValues, TName>) => {
   return (

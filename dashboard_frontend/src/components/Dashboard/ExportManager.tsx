@@ -34,7 +34,7 @@ export function ExportManager() {
       setName('');
       setFormat('csv');
       setDashboardId('');
-    } catch (error) {
+    } catch {
       toast.error('Failed to create export job');
     }
   };
@@ -52,7 +52,7 @@ export function ExportManager() {
     }
   };
 
-  if (isLoading) return <div>Loading export jobs...</div>;
+  if (isLoading) {return <div>Loading export jobs...</div>;}
 
   return (
     <div className="space-y-4">
@@ -89,12 +89,11 @@ export function ExportManager() {
               <div className="flex items-center justify-between">
                 <div className="text-sm">
                   <span className="font-medium">Status:</span>{' '}
-                  <span className={`capitalize ${
-                    job.status === 'completed' ? 'text-green-600' :
+                  <span className={`capitalize ${job.status === 'completed' ? 'text-green-600' :
                     job.status === 'failed' ? 'text-red-600' :
-                    job.status === 'processing' ? 'text-blue-600' :
-                    'text-gray-600'
-                  }`}>
+                      job.status === 'processing' ? 'text-blue-600' :
+                        'text-gray-600'
+                    }`}>
                     {job.status}
                   </span>
                 </div>
@@ -135,7 +134,7 @@ export function ExportManager() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="format">Format</Label>
-                <Select value={format} onValueChange={(value: any) => setFormat(value)}>
+                <Select value={format} onValueChange={(value: string) => setFormat(value as 'csv' | 'excel' | 'pdf' | 'json')}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>

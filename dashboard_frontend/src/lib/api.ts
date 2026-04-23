@@ -1,6 +1,6 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
 
-console.log('API_BASE_URL', API_BASE_URL);
+// console.log('API_BASE_URL', API_BASE_URL);
 
 export interface ApiResponse<T> {
   data: T;
@@ -62,7 +62,7 @@ export interface MetricsData {
 class ApiService {
   private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
-    
+
     const config: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
@@ -74,13 +74,14 @@ class ApiService {
 
     try {
       const response = await fetch(url, config);
-      
+
       if (!response.ok) {
         throw new Error(`API request failed: ${response.status} ${response.statusText}`);
       }
 
       return await response.json();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('API request error:', error);
       throw error;
     }

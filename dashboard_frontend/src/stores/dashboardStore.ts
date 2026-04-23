@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Dashboard, Widget } from '@/lib/dashboardApi';
+import type { Dashboard, Widget } from '@/lib/dashboardApi';
 
 interface DashboardState {
   currentDashboard: Dashboard | null;

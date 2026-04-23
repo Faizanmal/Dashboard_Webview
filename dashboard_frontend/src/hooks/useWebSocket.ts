@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/authStore';
 
 interface WebSocketMessage {
   type: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export function useDashboardWebSocket(dashboardId: number | string) {
@@ -16,13 +16,13 @@ export function useDashboardWebSocket(dashboardId: number | string) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   useEffect(() => {
-    if (!isAuthenticated || !dashboardId) return;
+    if (!isAuthenticated || !dashboardId) { return; }
 
     try {
       const ws = dashboardApi.createDashboardWebSocket(dashboardId);
 
       ws.onopen = () => {
-        console.log('Dashboard WebSocket connected');
+        // console.log('Dashboard WebSocket connected');
         setIsConnected(true);
       };
 
@@ -31,16 +31,18 @@ export function useDashboardWebSocket(dashboardId: number | string) {
           const data = JSON.parse(event.data);
           setLastMessage(data);
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error('Failed to parse WebSocket message:', error);
         }
       };
 
       ws.onerror = (error) => {
+        // eslint-disable-next-line no-console
         console.error('WebSocket error:', error);
       };
 
       ws.onclose = () => {
-        console.log('Dashboard WebSocket disconnected');
+        // console.log('Dashboard WebSocket disconnected');
         setIsConnected(false);
       };
 
@@ -50,6 +52,7 @@ export function useDashboardWebSocket(dashboardId: number | string) {
         ws.close();
       };
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to create WebSocket connection:', error);
     }
   }, [dashboardId, isAuthenticated]);
@@ -65,7 +68,7 @@ export function useDashboardWebSocket(dashboardId: number | string) {
     }
   }, []);
 
-  const sendMessage = useCallback((message: any) => {
+  const sendMessage = useCallback((message: unknown) => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify(message));
     }
@@ -81,25 +84,25 @@ export function useDashboardWebSocket(dashboardId: number | string) {
 
 export function useMetricsWebSocket() {
   const [isConnected, setIsConnected] = useState(false);
-  const [metrics, setMetrics] = useState<Record<string, any>>({});
+  const [metrics, setMetrics] = useState<Record<string, { value: number; timestamp: number }>>({});
   const wsRef = useRef<WebSocket | null>(null);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated) { return; }
 
     try {
       const ws = dashboardApi.createMetricsWebSocket();
 
       ws.onopen = () => {
-        console.log('Metrics WebSocket connected');
+        // console.log('Metrics WebSocket connected');
         setIsConnected(true);
       };
 
       ws.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
-          
+
           if (data.type === 'metric_update') {
             setMetrics((prev) => ({
               ...prev,
@@ -110,16 +113,18 @@ export function useMetricsWebSocket() {
             }));
           }
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error('Failed to parse WebSocket message:', error);
         }
       };
 
       ws.onerror = (error) => {
+        // eslint-disable-next-line no-console
         console.error('WebSocket error:', error);
       };
 
       ws.onclose = () => {
-        console.log('Metrics WebSocket disconnected');
+        // console.log('Metrics WebSocket disconnected');
         setIsConnected(false);
       };
 
@@ -129,6 +134,7 @@ export function useMetricsWebSocket() {
         ws.close();
       };
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to create WebSocket connection:', error);
     }
   }, [isAuthenticated]);

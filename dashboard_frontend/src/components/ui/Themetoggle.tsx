@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import type {
+  Theme} from "@/constants/theme-variant";
 import {
-  Theme,
   ThemeProviderContext,
-  initialState,
 } from "@/constants/theme-variant";
 
 type ThemeProviderProps = {

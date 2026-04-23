@@ -99,6 +99,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         pdf.save('dashboard-report.pdf');
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error exporting to PDF:', error);
       alert('Failed to export report. Please try again.');
     } finally {
@@ -111,8 +112,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   };
 
   type ExportableRow = {
-  [key: string]: string | number | boolean | null | undefined;
-};
+    [key: string]: string | number | boolean | null | undefined;
+  };
 
   const exportToCsv = (data: ExportableRow[], filename: string) => {
     if (!data || !data.length) {
@@ -135,15 +136,16 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
       const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.href = url;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-      
+      const url = URL.createObjectURL(blob);
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error exporting to CSV:', error);
       alert('Failed to export data. Please try again.');
     }

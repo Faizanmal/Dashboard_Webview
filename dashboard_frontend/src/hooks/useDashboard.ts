@@ -1,7 +1,8 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { dashboardApi, Dashboard, Widget } from '@/lib/dashboardApi';
+import type { Dashboard, Widget } from '@/lib/dashboardApi';
+import { dashboardApi } from '@/lib/dashboardApi';
 import { useAuthStore } from '@/stores/authStore';
 import { useDashboardStore } from '@/stores/dashboardStore';
 

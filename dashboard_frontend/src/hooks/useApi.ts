@@ -1,7 +1,8 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { dashboardApi, DataSource, Alert, ExportJob } from '@/lib/dashboardApi';
+import type { DataSource, Alert, ExportJob } from '@/lib/dashboardApi';
+import { dashboardApi } from '@/lib/dashboardApi';
 import { useAuthStore } from '@/stores/authStore';
 
 // Data Sources
@@ -133,7 +134,8 @@ export function useExportJob(id: number) {
     queryKey: ['exportJob', id],
     queryFn: () => dashboardApi.getExportJob(id),
     enabled: isAuthenticated && !!id,
-    refetchInterval: (data) => {
+    refetchInterval: (query) => {
+      const data = query.state.data;
       // Stop refetching if status is completed or failed
       if (data?.status === 'completed' || data?.status === 'failed') {
         return false;
@@ -167,7 +169,7 @@ export function usePostMetric() {
       metric_name: string;
       value: number;
       unit?: string;
-      tags?: Record<string, any>;
+      tags?: Record<string, unknown>;
     }) => dashboardApi.postMetric(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['metrics'] });

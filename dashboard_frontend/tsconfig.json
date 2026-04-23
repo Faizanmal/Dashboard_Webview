@@ -1,13 +1,4 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -15,12 +6,12 @@
         "./src/*"
       ]
     },
-    "noImplicitAny": false,
-    "noUnusedParameters": false,
+    "noImplicitAny": true,
+    "noUnusedParameters": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "noUnusedLocals": false,
-    "strictNullChecks": false,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
     "target": "ES2017",
     "lib": [
       "dom",
@@ -46,8 +37,9 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "tailwind.config.js"  ],
+    "**/*.tsx",
+    "tailwind.config.js"
+  ],
   "exclude": [
     "node_modules",
     "**/*.d.ts"

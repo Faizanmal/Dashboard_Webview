@@ -36,7 +36,7 @@ export function DataSourceManager() {
       setSourceName('');
       setDescription('');
       setRateLimit(100);
-    } catch (error) {
+    } catch {
       toast.error('Failed to create data source');
     }
   };
@@ -46,7 +46,7 @@ export function DataSourceManager() {
       try {
         await deleteMutation.mutateAsync(id);
         toast.success('Data source deleted');
-      } catch (error) {
+      } catch {
         toast.error('Failed to delete data source');
       }
     }
@@ -57,7 +57,7 @@ export function DataSourceManager() {
       try {
         await regenerateMutation.mutateAsync(id);
         toast.success('API key regenerated');
-      } catch (error) {
+      } catch {
         toast.error('Failed to regenerate API key');
       }
     }
@@ -70,7 +70,7 @@ export function DataSourceManager() {
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
-  if (isLoading) return <div>Loading data sources...</div>;
+  if (isLoading) {return <div>Loading data sources...</div>;}
 
   return (
     <div className="space-y-4">
@@ -89,9 +89,8 @@ export function DataSourceManager() {
               <CardTitle className="flex items-center justify-between">
                 <span>{source.source_name}</span>
                 <span
-                  className={`text-xs px-2 py-1 rounded ${
-                    source.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                  }`}
+                  className={`text-xs px-2 py-1 rounded ${source.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                    }`}
                 >
                   {source.is_active ? 'Active' : 'Inactive'}
                 </span>

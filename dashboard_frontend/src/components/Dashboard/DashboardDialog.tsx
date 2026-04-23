@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useCreateDashboard, useUpdateDashboard } from '@/hooks/useDashboard';
-import { Dashboard } from '@/lib/dashboardApi';
+import type { Dashboard } from '@/lib/dashboardApi';
 import { toast } from 'sonner';
 
 interface DashboardDialogProps {
@@ -43,7 +43,7 @@ export function DashboardDialog({ open, onOpenChange, dashboard, mode }: Dashboa
       setName('');
       setDescription('');
       setIsDefault(false);
-    } catch (error) {
+    } catch {
       toast.error('Failed to save dashboard');
     }
   };

@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { useAlerts, useCreateAlert, useDeleteAlert, useTriggeredAlerts } from '@/hooks/useApi';
 import { useState } from 'react';
-import { Plus, Trash2, Bell, BellOff } from 'lucide-react';
+import { Plus, Trash2, Bell } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -43,7 +43,7 @@ export function AlertManager() {
       toast.success('Alert created successfully');
       setIsCreateOpen(false);
       resetForm();
-    } catch (error) {
+    } catch {
       toast.error('Failed to create alert');
     }
   };
@@ -63,13 +63,13 @@ export function AlertManager() {
       try {
         await deleteMutation.mutateAsync(id);
         toast.success('Alert deleted');
-      } catch (error) {
+      } catch {
         toast.error('Failed to delete alert');
       }
     }
   };
 
-  if (isLoading) return <div>Loading alerts...</div>;
+  if (isLoading) {return <div>Loading alerts...</div>;}
 
   return (
     <div className="space-y-6">
@@ -119,8 +119,8 @@ export function AlertManager() {
                     alert.status === 'active'
                       ? 'default'
                       : alert.status === 'triggered'
-                      ? 'destructive'
-                      : 'secondary'
+                        ? 'destructive'
+                        : 'secondary'
                   }
                 >
                   {alert.status}
@@ -207,7 +207,7 @@ export function AlertManager() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="comparison">Comparison Type</Label>
-                  <Select value={comparisonType} onValueChange={(value: any) => setComparisonType(value)}>
+                  <Select value={comparisonType} onValueChange={(value: string) => setComparisonType(value as 'gt' | 'lt' | 'eq' | 'gte' | 'lte')}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>

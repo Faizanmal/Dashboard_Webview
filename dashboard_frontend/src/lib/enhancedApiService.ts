@@ -14,6 +14,7 @@ class EnhancedApiService {
     try {
       return await apiCall();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.warn('Real API failed, falling back to mock data:', error);
       throw error;
     }
@@ -29,7 +30,8 @@ class EnhancedApiService {
 
     try {
       return await this.tryRealApi(realApiCall);
-    } catch (error) {
+    } catch {
+      // eslint-disable-next-line no-console
       console.warn('Falling back to mock data due to API error');
       return mockApiCall();
     }
